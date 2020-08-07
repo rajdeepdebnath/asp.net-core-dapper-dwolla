@@ -1,0 +1,40 @@
+﻿@model IEnumerable<UtilityDwollaLog>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div style="margin-top:20px;height:70vh;">
+        <div class="row">
+            <form method="get" action="~/Home/GetCustomer">
+                <label>Email or Id:</label>
+                <input type="text" name="CustomerIdOrEmail" />
+                <input type="submit" value="Get Customer" />
+            </form>
+            <div>
+                <div style="color:red;">@ViewBag.Error</div>
+            </div>
+        </div>
+
+        @if (Model != null)
+        {
+            <table style="width:100%;background-color:#dedbdb;margin-top:50px;">
+                <tr>
+                    <th style="width:10%;padding:2px;">User Id</th>
+                    <th style="width:20%;padding:2px;">Event name</th>
+                    <th style="width:35%;padding:2px;">Log data</th>
+                    <th style="width:15%;padding:2px;">Created time</th>
+                </tr>
+                @foreach (var log in Model)
+                {
+                    var logData = log.LogData?.Length > 50 ? log.LogData.Substring(0,50) : log.LogData;
+                    <tr>
+                        <td style="width:10%;padding:2px;">@log.UserId</td>
+                        <td style="width:20%;padding:2px;">@log.EventName</td>
+                        <td style="width:35%;padding:2px;">@logData</td>
+                        <td style="width:15%;padding:2px;">@log.CreatedUtcDateTime</td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
